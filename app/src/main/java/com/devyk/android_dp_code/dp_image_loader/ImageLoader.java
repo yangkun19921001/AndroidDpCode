@@ -1,11 +1,19 @@
 package com.devyk.android_dp_code.dp_image_loader;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.Looper;
 import android.widget.ImageView;
 
 import com.devyk.android_dp_code.dp_image_loader.cache.MemoryCache;
+import com.devyk.android_dp_code.dp_image_loader.inter.IImageCache;
 
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -25,7 +33,7 @@ public class ImageLoader {
     /**
      * 内存缓存
      */
-   private MemoryCache mMemoryCache ;
+    private IImageCache mMemoryCache;
 
     /**
      * 线程池
@@ -39,14 +47,14 @@ public class ImageLoader {
 
     private static ImageLoader instance;
 
-    public static ImageLoader getInstance(){
+    public static ImageLoader getInstance() {
         if (instance == null)
             instance = new ImageLoader();
 
         return instance;
     }
 
-    public ImageLoader(){
+    public ImageLoader() {
         mMemoryCache = new MemoryCache();
         //线程池，线程数据量为 CPU 的数量
         mExecutorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
@@ -55,7 +63,67 @@ public class ImageLoader {
     /**
      * 加载图片
      */
-    public void loadImage(String url, ImageView imageView){
+    public void loadImage(final String url, final ImageView imageView) {
+        Bitmap bitmap = mMemoryCache.get(url);
+        if (bitmap != null) {
+            imageView.setImageBitmap(bitmap);
+            return;
+        }
 
+        imageView.setTag(url);
+
+        //如果内存缓存中没有图片，就开启网络请求去下载
+        mExecutorService.submit(new Runnable() {
+            @Override
+            public void run() {
+                Bitmap downBitmap = downloadImage(url);
+                if (downBitmap == null) return;
+                if (imageView.getTag().equals(url)) {
+                    displayImage(downBitmap, imageView);
+                }
+                //将图片缓存
+                mMemoryCache.put(url, downBitmap);
+            }
+        });
+
+    }
+
+    /**
+     * 显示图片
+     *
+     * @param downBitmap
+     * @param imageView
+     */
+    private void displayImage(final Bitmap downBitmap, final ImageView imageView) {
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                imageView.setImageBitmap(downBitmap);
+            }
+        });
+
+    }
+
+    /**
+     * 下载图片
+     *
+     * @param imageUrl
+     * @return
+     */
+    private Bitmap downloadImage(String imageUrl) {
+        Bitmap bitmap = null;
+        try {
+            URL url = new URL(imageUrl);
+            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+            //拿到请求到图片输入流
+            InputStream inputStream = urlConnection.getInputStream();
+            Bitmap downBitmap = BitmapFactory.decodeStream(inputStream);
+            //关闭连接
+            urlConnection.disconnect();
+            return downBitmap;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
