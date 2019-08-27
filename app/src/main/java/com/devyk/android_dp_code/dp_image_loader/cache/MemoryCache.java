@@ -1,9 +1,11 @@
 package com.devyk.android_dp_code.dp_image_loader.cache;
 
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.util.LruCache;
 
 import com.devyk.android_dp_code.dp_image_loader.inter.IImageCache;
+import com.devyk.android_dp_code.dp_image_loader.util.ImageLoaderUtils;
 
 /**
  * <pre>
@@ -28,22 +30,24 @@ public class MemoryCache implements IImageCache {
     private void init() {
         int currentMaxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
         //内存缓存的大小
-        int cacheSize = currentMaxMemory / 4;
+        int cacheSize = currentMaxMemory / 8;
         mMemoryLru = new LruCache<String, Bitmap>(cacheSize) {
             @Override
             protected int sizeOf(String key, Bitmap value) {
-                return value.getRowBytes() * value.getHeight() / 1024;
+                return value.getByteCount() / 1024;
             }
         };
     }
 
     @Override
     public void put(String url, Bitmap bitmap) {
-        mMemoryLru.put(url,bitmap);
+        String key = ImageLoaderUtils.hashKeyForDisk(url);
+        mMemoryLru.put(key, bitmap);
     }
 
     @Override
     public Bitmap get(String url) {
-        return mMemoryLru.get(url);
+        String key = ImageLoaderUtils.hashKeyForDisk(url);
+        return mMemoryLru.get(key);
     }
 }

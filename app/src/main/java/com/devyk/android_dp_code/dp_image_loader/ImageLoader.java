@@ -4,11 +4,16 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.widget.ImageView;
 
+import com.devyk.android_dp_code.dp_image_loader.cache.DiskCache;
 import com.devyk.android_dp_code.dp_image_loader.cache.MemoryCache;
 import com.devyk.android_dp_code.dp_image_loader.inter.IImageCache;
+import com.jakewharton.disklrucache.DiskLruCache;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -28,10 +33,11 @@ import java.util.concurrent.Executors;
  * </pre>
  */
 public class ImageLoader {
+    private String TAG = getClass().getSimpleName();
 
 
     /**
-     * 内存缓存
+     * 默认内存缓存
      */
     private IImageCache mMemoryCache;
 
@@ -61,6 +67,15 @@ public class ImageLoader {
     }
 
     /**
+     * 用户配置缓存策略
+     *
+     * @param imageCache
+     */
+    public void setImageCache(IImageCache imageCache) {
+        this.mMemoryCache = imageCache;
+    }
+
+    /**
      * 加载图片
      */
     public void loadImage(final String url, final ImageView imageView) {
@@ -81,8 +96,7 @@ public class ImageLoader {
                 if (imageView.getTag().equals(url)) {
                     displayImage(downBitmap, imageView);
                 }
-                //将图片缓存
-                mMemoryCache.put(url, downBitmap);
+
             }
         });
 
@@ -98,6 +112,7 @@ public class ImageLoader {
         mHandler.post(new Runnable() {
             @Override
             public void run() {
+                Log.i(TAG, "下载图片");
                 imageView.setImageBitmap(downBitmap);
             }
         });
@@ -117,10 +132,12 @@ public class ImageLoader {
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
             //拿到请求到图片输入流
             InputStream inputStream = urlConnection.getInputStream();
-            Bitmap downBitmap = BitmapFactory.decodeStream(inputStream);
-            //关闭连接
+            bitmap = BitmapFactory.decodeStream(inputStream);
             urlConnection.disconnect();
-            return downBitmap;
+            //将图片缓存
+            mMemoryCache.put(imageUrl, bitmap);
+            //关闭连接
+            return bitmap;
         } catch (Exception e) {
             e.printStackTrace();
         }
