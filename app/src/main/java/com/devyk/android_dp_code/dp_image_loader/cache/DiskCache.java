@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 
 import com.devyk.android_dp_code.dp_image_loader.inter.IImageCache;
 import com.devyk.android_dp_code.dp_image_loader.util.CacheUtils;
+import com.devyk.android_dp_code.dp_image_loader.util.CloaseUtils;
 import com.devyk.android_dp_code.dp_image_loader.util.ImageLoaderUtils;
 import com.jakewharton.disklrucache.DiskLruCache;
 
@@ -51,7 +52,6 @@ public class DiskCache implements IImageCache {
 
     @Override
     public void put(String url, Bitmap bitmap) {
-        OutputStream outputStream = null;
         DiskLruCache.Snapshot snapshot = null;
         BufferedOutputStream out = null;
         BufferedInputStream in = null;
@@ -61,12 +61,9 @@ public class DiskCache implements IImageCache {
             if (snapshot != null) {
                 DiskLruCache.Editor editor = mDiskLruCache.edit(key);
                 if (editor != null) {
-                    outputStream = editor.newOutputStream(DISK_CACHE_INDEX);
-
                     InputStream inputStream = ImageLoaderUtils.bitmap2InputStream(bitmap, 50);
-
                     in = new BufferedInputStream(inputStream, IO_BUFFER_SIZE);
-                    out = new BufferedOutputStream(outputStream, IO_BUFFER_SIZE);
+                    out = new BufferedOutputStream(editor.newOutputStream(DISK_CACHE_INDEX), IO_BUFFER_SIZE);
                     int b;
                     while ((b = in.read()) != -1) {
                         out.write(b);
@@ -77,20 +74,7 @@ public class DiskCache implements IImageCache {
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            try {
-                if (snapshot != null) {
-                    snapshot.close();
-                }
-                if (out != null) {
-                    out.close();
-                }
-                if (in != null) {
-                    in.close();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
+            CloaseUtils.close(snapshot, out, in);
         }
     }
 
@@ -98,16 +82,19 @@ public class DiskCache implements IImageCache {
     public Bitmap get(String url) {
         //通过key值在缓存中找到对应的Bitmap
         Bitmap bitmap = null;
+        InputStream fileInputStream = null;
         String key = ImageLoaderUtils.hashKeyForDisk(url);
         try {
             DiskLruCache.Snapshot snapshot = mDiskLruCache.get(key);
             if (snapshot == null) return null;
             //得到文件输入流
-            InputStream fileInputStream = snapshot.getInputStream(DISK_CACHE_INDEX);
+            fileInputStream = snapshot.getInputStream(DISK_CACHE_INDEX);
             if (fileInputStream != null)
                 bitmap = BitmapFactory.decodeStream(fileInputStream);
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            CloaseUtils.close(fileInputStream);
         }
         return bitmap;
     }
