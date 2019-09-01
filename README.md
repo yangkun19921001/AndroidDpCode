@@ -2,9 +2,9 @@
 **完成**
 ## [面向对象六大原则](https://juejin.im/post/5d669bfc6fb9a06b1b19d25e)
 ## [单例模式](https://juejin.im/post/5d6a8121e51d4561e6237193)
+## [Builder 建造者模式](https://juejin.im/post/5d6bcd0ee51d4561d41d2e36)
 
 **未完成**
-## [Builder 建造者模式]()
 ## [原型模式]()
 ## [工厂方法模式]()
 ## [抽象工厂模式]()

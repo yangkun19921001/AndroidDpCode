@@ -2,6 +2,7 @@ package com.devyk.android_dp_code;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
@@ -16,7 +17,7 @@ import com.devyk.android_dp_code.dp_image_loader.config.ImageLoaderConfig;
 import com.devyk.android_dp_code.dp_image_loader.http.HttpURLConnectionDownloaderImp;
 import com.devyk.android_dp_code.dp_image_loader.inter.IImageCache;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
