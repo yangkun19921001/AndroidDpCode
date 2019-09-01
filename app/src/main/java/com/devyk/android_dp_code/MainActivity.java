@@ -4,6 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.ListView;
 
 import com.devyk.android_dp_code.dp_image_loader.ImageLoader;
@@ -21,6 +24,9 @@ public class MainActivity extends AppCompatActivity {
 
         config();
         listView.setAdapter(new ImageAdapter(getApplicationContext()));
+
+
+
 
     }
 
@@ -41,4 +47,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+
+
 }

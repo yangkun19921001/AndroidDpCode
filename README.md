@@ -1,9 +1,9 @@
 # Android 中 设计模式探索
 **完成**
 ## [面向对象六大原则](https://juejin.im/post/5d669bfc6fb9a06b1b19d25e)
+## [单例模式](https://juejin.im/post/5d6a8121e51d4561e6237193)
 
 **未完成**
-## [单例模式]()
 ## [Builder 建造者模式]()
 ## [原型模式]()
 ## [工厂方法模式]()
