@@ -1,6 +1,11 @@
 package com.devyk.android_dp_code;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.printservice.PrintService;
+
+import com.devyk.android_dp_code.builder.LoginManager;
 
 import org.junit.Test;
 
@@ -35,7 +40,7 @@ public class ExampleUnitTest2 {
         h1.add(p5);
         System.out.println("p1 == p2 ? " + (p1 == p2));
         System.out.println("p1 == p2 ? " + (p1.equals(p2)));
-        System.out.println("h1 " +h1);
+        System.out.println("h1 " + h1);
 
 
     }
@@ -84,5 +89,39 @@ public class ExampleUnitTest2 {
             Person person = (Person) obj;
             return name.equals(person.name) && age == person.age;
         }
+    }
+
+    @Test
+    public void text2() {
+
+        LoginManager loginManager = new LoginManager.Builder()
+                .isAutoLogin(true)
+                .isBootLauncher(true)
+                .isCrashOnRestart(true)
+                .isSavePwd(true)
+                .build();
+
+        System.out.printf("loginManager:" + loginManager.toString());
+
+    }
+
+    private void showAlertDialog(Context context) {
+        new AlertDialog.Builder(context)
+                .setIcon(R.drawable.ic_launcher_background)
+                .setMessage("测试数据")
+                .setTitle("提示")
+                .setPositiveButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                }).setNegativeButton("确认", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        }).create()//最后一步就是在 Builder 中构建出 AlerDialog 对象，并初始化数据
+                .show(); // 显示
+
     }
 }

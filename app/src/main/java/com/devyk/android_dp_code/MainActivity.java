@@ -12,6 +12,8 @@ import android.widget.ListView;
 import com.devyk.android_dp_code.dp_image_loader.ImageLoader;
 import com.devyk.android_dp_code.dp_image_loader.adapter.ImageAdapter;
 import com.devyk.android_dp_code.dp_image_loader.cache.DoubleCache;
+import com.devyk.android_dp_code.dp_image_loader.config.ImageLoaderConfig;
+import com.devyk.android_dp_code.dp_image_loader.http.HttpURLConnectionDownloaderImp;
 import com.devyk.android_dp_code.dp_image_loader.inter.IImageCache;
 
 public class MainActivity extends AppCompatActivity {
@@ -26,28 +28,20 @@ public class MainActivity extends AppCompatActivity {
         listView.setAdapter(new ImageAdapter(getApplicationContext()));
 
 
-
-
     }
 
+    /**
+     * 初始化配置
+     */
     public void config() {
-        //使用双缓存
-        ImageLoader.getInstance().setImageCache(new DoubleCache(getApplicationContext()));
-
-        //用户自定义
-        ImageLoader.getInstance().setImageCache(new IImageCache() {
-            @Override
-            public void put(String url, Bitmap bitmap) {
-
-            }
-
-            @Override
-            public Bitmap get(String url) {
-                return null;
-            }
-        });
+        ImageLoaderConfig config = new ImageLoaderConfig.Builder()
+                .setCache(new DoubleCache(getApplicationContext()))
+                .setLoaderErrorIcon(R.drawable.ic_launcher_background)
+                .setThreadCount(10)
+                .setDownLoader(new HttpURLConnectionDownloaderImp())
+                .create();
+        ImageLoader.getInstance().init(config);
     }
-
 
 
 }

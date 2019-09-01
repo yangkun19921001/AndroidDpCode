@@ -7,6 +7,7 @@ import android.util.Log;
 import android.widget.ImageView;
 
 import com.devyk.android_dp_code.dp_image_loader.cache.MemoryCache;
+import com.devyk.android_dp_code.dp_image_loader.config.ImageLoaderConfig;
 import com.devyk.android_dp_code.dp_image_loader.http.HttpURLConnectionDownloaderImp;
 import com.devyk.android_dp_code.dp_image_loader.inter.IDownloader;
 import com.devyk.android_dp_code.dp_image_loader.inter.IImageCache;
@@ -30,7 +31,7 @@ public class ImageLoader {
     /**
      * 默认内存缓存
      */
-    private IImageCache mMemoryCache;
+    private IImageCache mCache;
 
     /**
      * 图片下载
@@ -47,38 +48,57 @@ public class ImageLoader {
      */
     private Handler mHandler = new Handler(Looper.getMainLooper());
 
+    /**
+     * 显示失败的图片
+     */
+    private int mErrorIcon ;
+
     private static ImageLoader instance;
+    private ImageLoaderConfig imageLoaderConfig;
 
     public static ImageLoader getInstance() {
         if (instance == null)
             instance = new ImageLoader();
-
         return instance;
     }
 
-    public ImageLoader() {
-        //图片缓存
-       this. mMemoryCache = new MemoryCache();
-       //图片下载
-       this.mImageDownloader = new HttpURLConnectionDownloaderImp();
-        //线程池，线程数据量为 CPU 的数量
-        this.mExecutorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+    private ImageLoader() {
+
     }
 
-    /**
-     * 用户配置缓存策略
-     *
-     * @param imageCache
-     */
-    public void setImageCache(IImageCache imageCache) {
-        this.mMemoryCache = imageCache;
+    public void init(ImageLoaderConfig imageLoaderConfig) {
+        this.imageLoaderConfig = imageLoaderConfig;
+        checkConfig();
     }
+
+    private void checkConfig() {
+        if (imageLoaderConfig == null) return;
+
+        if (imageLoaderConfig.imageCache == null) {
+            //图片缓存
+            this.mCache = new MemoryCache();
+        } else {
+            this.mCache = imageLoaderConfig.imageCache;
+        }
+
+        if (imageLoaderConfig.threadCount != -1) {
+            //线程池，线程数据量为 CPU 的数量
+            this.mExecutorService = Executors.newFixedThreadPool(imageLoaderConfig.threadCount);
+        }
+
+        if (imageLoaderConfig.errorIcon != -1)
+            this.mErrorIcon = imageLoaderConfig.errorIcon;
+
+        //图片下载
+        this.mImageDownloader = imageLoaderConfig.downloader;
+    }
+
 
     /**
      * 加载图片
      */
     public void loadImage(final String url, final ImageView imageView) {
-        Bitmap bitmap = mMemoryCache.get(url);
+        Bitmap bitmap = mCache.get(url);
         if (bitmap != null) {
             imageView.setImageBitmap(bitmap);
             return;
@@ -95,7 +115,7 @@ public class ImageLoader {
                 if (imageView.getTag().equals(url)) {
                     displayImage(imager, imageView);
                 }
-                mMemoryCache.put(url,imager);
+                mCache.put(url, imager);
             }
         });
 
