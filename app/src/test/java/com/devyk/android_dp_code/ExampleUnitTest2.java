@@ -6,9 +6,11 @@ import android.content.DialogInterface;
 import android.printservice.PrintService;
 
 import com.devyk.android_dp_code.builder.LoginManager;
+import com.devyk.android_dp_code.prototype.WordDocument;
 
 import org.junit.Test;
 
+import java.util.HashMap;
 import java.util.HashSet;
 
 /**
@@ -21,6 +23,9 @@ import java.util.HashSet;
  * </pre>
  */
 public class ExampleUnitTest2 {
+
+    private Object obj1 = new Object();
+    private Object obj2 = new Object();
 
 
     @Test
@@ -92,7 +97,7 @@ public class ExampleUnitTest2 {
     }
 
     @Test
-    public void text2() {
+    public void test2() {
 
         LoginManager loginManager = new LoginManager.Builder()
                 .isAutoLogin(true)
@@ -102,6 +107,11 @@ public class ExampleUnitTest2 {
                 .build();
 
         System.out.printf("loginManager:" + loginManager.toString());
+
+    }
+
+    @Test
+    public void hashMapTest() {
 
     }
 
@@ -123,5 +133,101 @@ public class ExampleUnitTest2 {
         }).create()//最后一步就是在 Builder 中构建出 AlerDialog 对象，并初始化数据
                 .show(); // 显示
 
+    }
+
+    @Test
+    public void test4() {
+        //1. 构建文档对象
+        WordDocument wordDocument = new WordDocument();
+        //2. 编辑文档
+        wordDocument.setmTxt("今天是一个好天气");
+        wordDocument.addImagepath("/sdcard/image.png");
+        wordDocument.addImagepath("/sdcard/image2.png");
+        wordDocument.addImagepath("/sdcard/image3.png");
+        //打印文档内容
+        wordDocument.println();
+
+
+        System.out.println("--------------------开始clone-----\n\n");
+
+        //以原始文档为准，copy 副本
+        WordDocument cloneDoc = wordDocument.clone();
+
+        System.out.println(" 打印副本，看看数据  \n\n");
+        //打印副本，看看数据
+        cloneDoc.println();
+
+        //在副本文档上修改
+        cloneDoc.setmTxt("副奔上修改文档：老龙王哭了");
+        cloneDoc.addImagepath("/sdcard/副本发生改变");
+        System.out.println("  打印修改后的副本  \n\n");
+        //打印修改后的副本
+        cloneDoc.println();
+        System.out.println("----看会不会影响原始文档-----\n\n");
+        //看会不会影响原始文档？？？？？？？
+        wordDocument.println();
+
+        System.out.println("内存地址：\nwordDocument: " + wordDocument.toString() + "\n" + "cloneDoc: " + cloneDoc.toString());
+
+    }
+
+    @Test
+    public void test5() {
+        new Thread("线程 1 ") {
+            @Override
+            public void run() {
+                synchronized (obj1) {
+                    System.out.println("Thread: " + getName() + "---> 进入线程");
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    System.out.println("Thread: " + getName() + "-----> waiting");
+
+                    synchronized (obj2) {
+                        System.out.printf("Thread: " + getName() + "---> synchronized");
+                    }
+
+                }
+
+            }
+        }.start();
+
+        new Thread("线程 2 ") {
+            @Override
+            public void run() {
+                synchronized (obj2) {
+                    System.out.println("Thread: " + getName() + "---> 进入线程");
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    System.out.println("Thread: " + getName() + "-----> waiting");
+
+                    synchronized (obj1) {
+                        System.out.println("Thread: " + getName() + "---> synchronized");
+                    }
+                }
+
+            }
+        }.start();
+    }
+
+    @Test
+    public void test6() {
+        Integer i11 = 333;
+        Integer i22 = 333;
+        System.out.println(i11 == i22);// 输出 false
+        System.out.println(i11.equals(i22));// 输出 false
+        Integer i33 = 127;
+        Integer i44 = 127;
+        System.out.println(i33 == i44);// 输出 true
+
+
+        Integer i55 = 128;
+        Integer i66 = 128;
+        System.out.println(i55 == i66);// 输出 true
     }
 }
