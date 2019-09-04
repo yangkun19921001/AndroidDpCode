@@ -6,12 +6,15 @@ import android.content.DialogInterface;
 import android.printservice.PrintService;
 
 import com.devyk.android_dp_code.builder.LoginManager;
+import com.devyk.android_dp_code.factory.FunModuleFactor;
+import com.devyk.android_dp_code.factory.IFunctionModule;
 import com.devyk.android_dp_code.prototype.WordDocument;
 
 import org.junit.Test;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 
 /**
  * <pre>
@@ -229,5 +232,19 @@ public class ExampleUnitTest2 {
         Integer i55 = 128;
         Integer i66 = 128;
         System.out.println(i55 == i66);// 输出 true
+    }
+
+
+    @Test
+    public void test7() {
+
+        FunModuleFactor funModuleFactor = new FunModuleFactor();
+        List<IFunctionModule> vip = funModuleFactor.getMoudleFun("VIP");
+        System.out.println("VIP:" + vip.size());
+
+
+        List<IFunctionModule> kip = funModuleFactor.getMoudleFun("KIP");
+        System.out.println("KIP:" + kip.size());
+
     }
 }
