@@ -5,6 +5,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.printservice.PrintService;
 
+import com.devyk.android_dp_code.abstract_factory.DarkThemeFactory;
+import com.devyk.android_dp_code.abstract_factory.ThemeButton;
+import com.devyk.android_dp_code.abstract_factory.ThemeToolbar;
 import com.devyk.android_dp_code.builder.LoginManager;
 import com.devyk.android_dp_code.factory.FunModuleFactor;
 import com.devyk.android_dp_code.factory.IFunctionModule;
@@ -246,5 +249,14 @@ public class ExampleUnitTest2 {
         List<IFunctionModule> kip = funModuleFactor.getMoudleFun("KIP");
         System.out.println("KIP:" + kip.size());
 
+    }
+
+    @Test
+    public void testAbstractFactory(){
+        DarkThemeFactory darkThemeFactory = new DarkThemeFactory(null);
+        //创建暗色主题按钮
+        ThemeButton button = darkThemeFactory.createButton();
+        //创建亮色主题标题栏
+        ThemeToolbar toolbar = darkThemeFactory.createToolbar();
     }
 }
