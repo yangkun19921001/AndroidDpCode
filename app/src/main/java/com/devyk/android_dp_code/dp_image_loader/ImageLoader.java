@@ -91,6 +91,8 @@ public class ImageLoader {
 
         //图片下载
         this.mImageDownloader = imageLoaderConfig.downloader;
+
+
     }
 
 

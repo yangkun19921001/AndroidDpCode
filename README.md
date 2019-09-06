@@ -6,10 +6,10 @@
 ## [原型模式](https://juejin.im/post/5d6e7eaa5188250d9432b463)
 ## [工厂方法模式](https://juejin.im/post/5d7125d5f265da03d7283ce9)
 ## [抽象工厂模式](https://juejin.im/post/5d71278ef265da03d063c265)
+## [策略模式](https://juejin.im/post/5d7273abf265da03b31bf1ec)
 
 
 **未完成**
-## [策略模式]()
 ## [状态模式]()
 ## [责任链模式]()
 ## [解释器模式]()

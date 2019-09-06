@@ -12,6 +12,9 @@ import com.devyk.android_dp_code.builder.LoginManager;
 import com.devyk.android_dp_code.factory.FunModuleFactor;
 import com.devyk.android_dp_code.factory.IFunctionModule;
 import com.devyk.android_dp_code.prototype.WordDocument;
+import com.devyk.android_dp_code.strategy.LuxuryCar;
+import com.devyk.android_dp_code.strategy.MediumCar;
+import com.devyk.android_dp_code.strategy.TransportationCalculator;
 
 import org.junit.Test;
 
@@ -258,5 +261,19 @@ public class ExampleUnitTest2 {
         ThemeButton button = darkThemeFactory.createButton();
         //创建亮色主题标题栏
         ThemeToolbar toolbar = darkThemeFactory.createToolbar();
+    }
+
+    @Test
+    public void test8(){
+        TransportationCalculator transportationCalculator = new TransportationCalculator();
+        System.out.println("普通车 1 km RMB:" + transportationCalculator.calcu(5));
+
+
+        transportationCalculator.setStrategy(new MediumCar());
+        System.out.println("中级车 1 km RMB:" + transportationCalculator.calcu(5));
+
+
+        transportationCalculator.setStrategy(new LuxuryCar());
+        System.out.println("豪华车 1 km RMB:" + transportationCalculator.calcu(5));
     }
 }
