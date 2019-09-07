@@ -17,7 +17,7 @@ public class CloaseUtils {
     public static void close(Closeable... closeable) {
         if (closeable != null) {
             try {
-                if (closeable.length == 1){
+                if (closeable.length == 1 && closeable[0] != null){
                     closeable[0].close();
                     return;
                 }
