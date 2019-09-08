@@ -16,6 +16,8 @@ import com.devyk.android_dp_code.iterator.test1.HandlerB;
 import com.devyk.android_dp_code.iterator.test1.HandlerRequest;
 import com.devyk.android_dp_code.iterator.test1.RequestA;
 import com.devyk.android_dp_code.iterator.test1.RequestB;
+import com.devyk.android_dp_code.observer.Coder;
+import com.devyk.android_dp_code.observer.JueJ;
 import com.devyk.android_dp_code.prototype.WordDocument;
 import com.devyk.android_dp_code.strategy.LuxuryCar;
 import com.devyk.android_dp_code.strategy.MediumCar;
@@ -302,5 +304,25 @@ public class ExampleUnitTest2 {
         handlerA.handlerRequest(handlerRequestA);
         handlerA.handlerRequest(handlerRequestB);
 
+    }
+
+
+    @Test
+    public void testObserver(){
+        //创建被观察者--》技术网站
+        JueJ jueJ = new JueJ();
+
+        //创建观察者
+        Coder coderA = new Coder("A");
+        Coder coderB = new Coder("B");
+        Coder coderC = new Coder("C");
+
+        //产生订阅关系，加入被观察者列表中，有更新就推送给它们
+        jueJ.addObserver(coderA);
+        jueJ.addObserver(coderB);
+        jueJ.addObserver(coderC);
+
+        //有更新了，通知观察者们
+        jueJ.post("Dev_YK: 更新了一篇设计模式文章，点击进行查看。" );
     }
 }

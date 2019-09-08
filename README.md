@@ -9,11 +9,11 @@
 ## [策略模式](https://juejin.im/post/5d7273abf265da03b31bf1ec)
 ## [状态模式](https://juejin.im/post/5d738f40e51d4561c41fb8a6)
 ## [责任链模式](https://juejin.im/post/5d749589f265da03d871e36e)
+## [观察者模式](https://juejin.im/post/5d7501f36fb9a06ac93cf457)
 
 **未完成**
 ## [解释器模式]()
 ## [命令模式]()
-## [观察者模式]()
 ## [备忘录模式]()
 ## [迭代器模式]()
 ## [模板方法模式]()
