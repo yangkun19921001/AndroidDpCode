@@ -3,7 +3,6 @@ package com.devyk.android_dp_code;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.printservice.PrintService;
 
 import com.devyk.android_dp_code.abstract_factory.DarkThemeFactory;
 import com.devyk.android_dp_code.abstract_factory.ThemeButton;
@@ -11,6 +10,12 @@ import com.devyk.android_dp_code.abstract_factory.ThemeToolbar;
 import com.devyk.android_dp_code.builder.LoginManager;
 import com.devyk.android_dp_code.factory.FunModuleFactor;
 import com.devyk.android_dp_code.factory.IFunctionModule;
+import com.devyk.android_dp_code.iterator.test1.Handler;
+import com.devyk.android_dp_code.iterator.test1.HandlerA;
+import com.devyk.android_dp_code.iterator.test1.HandlerB;
+import com.devyk.android_dp_code.iterator.test1.HandlerRequest;
+import com.devyk.android_dp_code.iterator.test1.RequestA;
+import com.devyk.android_dp_code.iterator.test1.RequestB;
 import com.devyk.android_dp_code.prototype.WordDocument;
 import com.devyk.android_dp_code.strategy.LuxuryCar;
 import com.devyk.android_dp_code.strategy.MediumCar;
@@ -18,7 +23,6 @@ import com.devyk.android_dp_code.strategy.TransportationCalculator;
 
 import org.junit.Test;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
@@ -255,7 +259,7 @@ public class ExampleUnitTest2 {
     }
 
     @Test
-    public void testAbstractFactory(){
+    public void testAbstractFactory() {
         DarkThemeFactory darkThemeFactory = new DarkThemeFactory(null);
         //创建暗色主题按钮
         ThemeButton button = darkThemeFactory.createButton();
@@ -264,7 +268,7 @@ public class ExampleUnitTest2 {
     }
 
     @Test
-    public void test8(){
+    public void test8() {
         TransportationCalculator transportationCalculator = new TransportationCalculator();
         System.out.println("普通车 1 km RMB:" + transportationCalculator.calcu(5));
 
@@ -275,5 +279,28 @@ public class ExampleUnitTest2 {
 
         transportationCalculator.setStrategy(new LuxuryCar());
         System.out.println("豪华车 1 km RMB:" + transportationCalculator.calcu(5));
+    }
+
+
+    /**
+     * 客户处理
+     */
+    @Test
+    public void testIterator() {
+        //构造处理对象
+        Handler handlerA = new HandlerA();
+        Handler handlerB = new HandlerB();
+
+        //交给下一个节点处理
+        handlerA.nextHandler = handlerB;
+
+        //构造请求对象
+        HandlerRequest handlerRequestA = new RequestA("A");
+        HandlerRequest handlerRequestB = new RequestB("B");
+
+        //发起请求
+        handlerA.handlerRequest(handlerRequestA);
+        handlerA.handlerRequest(handlerRequestB);
+
     }
 }

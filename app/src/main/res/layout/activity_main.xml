@@ -37,4 +37,13 @@
         android:text="startHome"
         />
 
+    <Button
+        android:layout_below="@id/btn_3"
+        android:id="@+id/btn_4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="order"
+        android:text="责任链"
+        />
+
 </RelativeLayout>

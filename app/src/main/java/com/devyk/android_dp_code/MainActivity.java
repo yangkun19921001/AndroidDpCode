@@ -7,6 +7,7 @@ import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
@@ -23,6 +24,9 @@ import com.devyk.android_dp_code.dp_image_loader.cache.DoubleCache;
 import com.devyk.android_dp_code.dp_image_loader.config.ImageLoaderConfig;
 import com.devyk.android_dp_code.dp_image_loader.http.HttpURLConnectionDownloaderImp;
 import com.devyk.android_dp_code.dp_image_loader.inter.IImageCache;
+import com.devyk.android_dp_code.iterator.test2.ReceiverA;
+import com.devyk.android_dp_code.iterator.test2.ReceiverB;
+import com.devyk.android_dp_code.iterator.test2.ReceiverC;
 import com.devyk.android_dp_code.prototype.IntentUtils;
 import com.devyk.android_dp_code.state.HomeActivity;
 
@@ -42,7 +46,11 @@ public class MainActivity extends Activity {
 
         test5();
 
+        registerOrderBroadcast();
+
     }
+
+
 
     /**
      * 初始化配置
@@ -131,14 +139,30 @@ public class MainActivity extends Activity {
     }
 
 
-    /**
-     *
-     *  Thread: 线程 1 ---> 进入线程
-     *  Thread: 线程 1 -----> waiting
-     *  Thread: 线程 1 ---> synchronized
-     *
-     *  Thread: 线程 2 ---> 进入线程
-     *  Thread: 线程 2 -----> waiting
-     *  Thread: 线程 2 ---> synchronized
-     */
+    private void registerOrderBroadcast() {
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("com.it.dp_order");
+        filter.setPriority(1000);
+
+        IntentFilter filterB = new IntentFilter();
+        filterB.addAction("com.it.dp_order");
+        filterB.setPriority(500);
+        registerReceiver(new ReceiverB(),filterB);
+
+        IntentFilter filterC = new IntentFilter();
+        filterC.addAction("com.it.dp_order");
+        filterC.setPriority(100);
+        registerReceiver(new ReceiverC(),filterC);
+        registerReceiver(new ReceiverA(),filter);
+    }
+    public void order(View view) {
+        Intent intent = new Intent();
+        intent.setAction("com.it.dp_order");
+        intent.putExtra("limit",1000);
+        intent.putExtra("MEG","中午了，该吃饭了");
+        sendOrderedBroadcast(intent,null);
+
+    }
+
+
 }
