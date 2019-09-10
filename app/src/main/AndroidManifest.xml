@@ -23,6 +23,7 @@
         </activity>
         <activity android:name=".state.LoginActivity" />
         <activity android:name=".state.HomeActivity" />
+        <activity android:name=".memorandum.NodeActivity" />
 
 
     </application>

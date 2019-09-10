@@ -46,4 +46,13 @@
         android:text="责任链"
         />
 
+    <Button
+        android:layout_below="@id/btn_4"
+        android:id="@+id/btn_5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="Node"
+        android:text="备忘录"
+        />
+
 </RelativeLayout>

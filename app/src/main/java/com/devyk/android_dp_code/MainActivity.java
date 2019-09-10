@@ -28,6 +28,7 @@ import com.devyk.android_dp_code.dp_image_loader.inter.IImageCache;
 import com.devyk.android_dp_code.iterator.test2.ReceiverA;
 import com.devyk.android_dp_code.iterator.test2.ReceiverB;
 import com.devyk.android_dp_code.iterator.test2.ReceiverC;
+import com.devyk.android_dp_code.memorandum.NodeActivity;
 import com.devyk.android_dp_code.prototype.IntentUtils;
 import com.devyk.android_dp_code.state.HomeActivity;
 
@@ -128,8 +129,7 @@ public class MainActivity extends Activity {
 
         //从 scale 入手
         ObjectAnimator scaleX = ObjectAnimator.ofFloat(view, "scaleX", 0.3f);
-        scaleX.setDuration(2000)
-                ;
+        scaleX.setDuration(2000);
         scaleX.start();
 
 
@@ -162,11 +162,14 @@ public class MainActivity extends Activity {
         intent.putExtra("limit",1000);
         intent.putExtra("MEG","中午了，该吃饭了");
         sendOrderedBroadcast(intent,null);
-
     }
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         return super.dispatchTouchEvent(ev);
+    }
+
+    public void Node(View view) {
+        startActivity(new Intent(this, NodeActivity.class));
     }
 }
