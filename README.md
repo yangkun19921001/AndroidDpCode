@@ -11,9 +11,9 @@
 ## [责任链模式](https://juejin.im/post/5d749589f265da03d871e36e)
 ## [观察者模式](https://juejin.im/post/5d7501f36fb9a06ac93cf457)
 ## [备忘录模式](https://juejin.im/post/5d77ab1de51d4561c83e7cd9)
+## [迭代器模式](https://juejin.im/post/5d791e176fb9a06ae61ae3cc)
 
 **未完成**
-## [迭代器模式]()
 ## [模板方法模式]()
 ## [访问者模式]()
 ## [中介者模式]()

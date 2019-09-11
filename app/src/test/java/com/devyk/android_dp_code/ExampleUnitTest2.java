@@ -16,6 +16,9 @@ import com.devyk.android_dp_code.iterator.test1.HandlerB;
 import com.devyk.android_dp_code.iterator.test1.HandlerRequest;
 import com.devyk.android_dp_code.iterator.test1.RequestA;
 import com.devyk.android_dp_code.iterator.test1.RequestB;
+import com.devyk.android_dp_code.iterator_.Aggregate;
+import com.devyk.android_dp_code.iterator_.ConcreteAggregate;
+import com.devyk.android_dp_code.iterator_.Iterator;
 import com.devyk.android_dp_code.observer.Coder;
 import com.devyk.android_dp_code.observer.JueJ;
 import com.devyk.android_dp_code.prototype.WordDocument;
@@ -308,7 +311,7 @@ public class ExampleUnitTest2 {
 
 
     @Test
-    public void testObserver(){
+    public void testObserver() {
         //创建被观察者--》技术网站
         JueJ jueJ = new JueJ();
 
@@ -323,6 +326,24 @@ public class ExampleUnitTest2 {
         jueJ.addObserver(coderC);
 
         //有更新了，通知观察者们
-        jueJ.post("Dev_YK: 更新了一篇设计模式文章，点击进行查看。" );
+        jueJ.post("Dev_YK: 更新了一篇设计模式文章，点击进行查看。");
+    }
+
+    @Test
+    public void testIterators() {
+
+        //创建容器
+        Aggregate<String> aggregate = new ConcreteAggregate<>();
+        aggregate.add("1");
+        aggregate.add("2");
+        aggregate.add("3");
+        aggregate.add("4");
+
+        //拿到容器迭代器，使用迭代器遍历
+        Iterator<String> iterator = aggregate.iterator();
+        while (iterator.hasNext()) {
+            System.out.println("Aggregate: " + iterator.next());
+        }
+
     }
 }
