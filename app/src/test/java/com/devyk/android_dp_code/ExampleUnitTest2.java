@@ -25,6 +25,9 @@ import com.devyk.android_dp_code.prototype.WordDocument;
 import com.devyk.android_dp_code.strategy.LuxuryCar;
 import com.devyk.android_dp_code.strategy.MediumCar;
 import com.devyk.android_dp_code.strategy.TransportationCalculator;
+import com.devyk.android_dp_code.template.AbstractComputer;
+import com.devyk.android_dp_code.template.CoderComputer;
+import com.devyk.android_dp_code.template.MilitaryComputer;
 
 import org.junit.Test;
 
@@ -345,5 +348,15 @@ public class ExampleUnitTest2 {
             System.out.println("Aggregate: " + iterator.next());
         }
 
+    }
+
+    @Test
+    public void testTemplate(){
+
+        AbstractComputer abstractComputerA = new CoderComputer();
+        abstractComputerA.startUp();
+
+        AbstractComputer abstractComputerB = new MilitaryComputer();
+        abstractComputerB.startUp();
     }
 }
