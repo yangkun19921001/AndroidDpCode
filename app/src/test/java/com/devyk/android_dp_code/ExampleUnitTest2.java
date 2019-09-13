@@ -28,6 +28,9 @@ import com.devyk.android_dp_code.strategy.TransportationCalculator;
 import com.devyk.android_dp_code.template.AbstractComputer;
 import com.devyk.android_dp_code.template.CoderComputer;
 import com.devyk.android_dp_code.template.MilitaryComputer;
+import com.devyk.android_dp_code.visitor.BusinesssReport;
+import com.devyk.android_dp_code.visitor.CEOVisitor;
+import com.devyk.android_dp_code.visitor.CTOVisitor;
 
 import org.junit.Test;
 
@@ -358,5 +361,17 @@ public class ExampleUnitTest2 {
 
         AbstractComputer abstractComputerB = new MilitaryComputer();
         abstractComputerB.startUp();
+    }
+
+    @Test
+    public void textVisitor(){
+        //构建报表
+        BusinesssReport businesssReport = new BusinesssReport();
+        //给 CEO 汇报的报表
+        System.out.println(">>>>>>>给 CEO 汇报的报表");
+        businesssReport.showReport(new CEOVisitor());
+        //给 CTO 汇报的报表
+        System.out.println(">>>>>>>给 CTO 汇报的报表");
+        businesssReport.showReport(new CTOVisitor());
     }
 }
