@@ -19,6 +19,14 @@ import com.devyk.android_dp_code.iterator.test1.RequestB;
 import com.devyk.android_dp_code.iterator_.Aggregate;
 import com.devyk.android_dp_code.iterator_.ConcreteAggregate;
 import com.devyk.android_dp_code.iterator_.Iterator;
+import com.devyk.android_dp_code.mediator.test1.ConcreteColleagueA;
+import com.devyk.android_dp_code.mediator.test1.ConcreteColleagueB;
+import com.devyk.android_dp_code.mediator.test1.ConcreteMediator;
+import com.devyk.android_dp_code.mediator.test2.CDDevice;
+import com.devyk.android_dp_code.mediator.test2.CPU;
+import com.devyk.android_dp_code.mediator.test2.GraphicsCard;
+import com.devyk.android_dp_code.mediator.test2.MainBoard;
+import com.devyk.android_dp_code.mediator.test2.SoundCard;
 import com.devyk.android_dp_code.observer.Coder;
 import com.devyk.android_dp_code.observer.JueJ;
 import com.devyk.android_dp_code.prototype.WordDocument;
@@ -373,5 +381,38 @@ public class ExampleUnitTest2 {
         //给 CTO 汇报的报表
         System.out.println(">>>>>>>给 CTO 汇报的报表");
         businesssReport.showReport(new CTOVisitor());
+    }
+
+    @Test
+    public void testMediator(){
+        ConcreteMediator mediator = new ConcreteMediator();
+        mediator.setConcreteColleagueA(new ConcreteColleagueA(mediator));
+        mediator.setConcreteColleagueB(new ConcreteColleagueB(mediator));
+        mediator.method();
+    }
+    @Test
+    public void testMediator2(){
+
+        //构造主板对象--也就是中介者
+        MainBoard mainBoard = new MainBoard();
+        //分别构造零部件
+        CPU cpu = new CPU(mainBoard);
+
+        CDDevice cdDevice = new CDDevice(mainBoard);
+
+        GraphicsCard graphicsCard = new GraphicsCard(mainBoard);
+
+        SoundCard soundCard = new SoundCard(mainBoard);
+
+        //将各个零部件安装到主板身上
+        mainBoard.setCdDevice(cdDevice);
+        mainBoard.setCPU(cpu);
+        mainBoard.setGraphicsCard(graphicsCard);
+        mainBoard.setSoundCard(soundCard);
+
+        //安装完成后，开始播放视频。
+        cdDevice.load();
+
+
     }
 }

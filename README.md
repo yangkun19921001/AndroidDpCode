@@ -14,9 +14,9 @@
 ## [迭代器模式](https://juejin.im/post/5d791e176fb9a06ae61ae3cc)
 ## [模板方法模式](https://juejin.im/post/5d7a759fe51d4561c02a25db)
 ## [访问者模式](https://juejin.im/post/5d7b24b1e51d4561d41d2e96)
+## [中介者模式](https://juejin.im/post/5d7b63b3e51d4561ea1a94ed)
 
 **未完成**
-## [中介者模式]()
 ## [代理模式]()
 ## [组合模式]()
 ## [适配器模式]()
