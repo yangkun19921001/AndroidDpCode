@@ -8,6 +8,12 @@ import com.devyk.android_dp_code.abstract_factory.DarkThemeFactory;
 import com.devyk.android_dp_code.abstract_factory.ThemeButton;
 import com.devyk.android_dp_code.abstract_factory.ThemeToolbar;
 import com.devyk.android_dp_code.builder.LoginManager;
+import com.devyk.android_dp_code.component.Component;
+import com.devyk.android_dp_code.component.Composite;
+import com.devyk.android_dp_code.component.Leaf;
+import com.devyk.android_dp_code.component.test2.Dir;
+import com.devyk.android_dp_code.component.test2.File;
+import com.devyk.android_dp_code.component.test2.Folder;
 import com.devyk.android_dp_code.factory.FunModuleFactor;
 import com.devyk.android_dp_code.factory.IFunctionModule;
 import com.devyk.android_dp_code.iterator.test1.Handler;
@@ -367,7 +373,7 @@ public class ExampleUnitTest2 {
     }
 
     @Test
-    public void testTemplate(){
+    public void testTemplate() {
 
         AbstractComputer abstractComputerA = new CoderComputer();
         abstractComputerA.startUp();
@@ -377,7 +383,7 @@ public class ExampleUnitTest2 {
     }
 
     @Test
-    public void textVisitor(){
+    public void textVisitor() {
         //构建报表
         BusinesssReport businesssReport = new BusinesssReport();
         //给 CEO 汇报的报表
@@ -389,14 +395,15 @@ public class ExampleUnitTest2 {
     }
 
     @Test
-    public void testMediator(){
+    public void testMediator() {
         ConcreteMediator mediator = new ConcreteMediator();
         mediator.setConcreteColleagueA(new ConcreteColleagueA(mediator));
         mediator.setConcreteColleagueB(new ConcreteColleagueB(mediator));
         mediator.method();
     }
+
     @Test
-    public void testMediator2(){
+    public void testMediator2() {
 
         //构造主板对象--也就是中介者
         MainBoard mainBoard = new MainBoard();
@@ -420,8 +427,9 @@ public class ExampleUnitTest2 {
 
 
     }
+
     @Test
-    public void testProxy(){
+    public void testProxy() {
 
         //X 程序员
         ILawsuit lawsuit = new XProgrammer();
@@ -435,8 +443,9 @@ public class ExampleUnitTest2 {
         proxyLawyer.defend();
         proxyLawyer.finish();
     }
+
     @Test
-    public void testDynamicProxy(){
+    public void testDynamicProxy() {
 
         //X 程序员
         ILawsuit lawsuit = new XProgrammer();
@@ -455,5 +464,66 @@ public class ExampleUnitTest2 {
         proxyLawyer.burden();
         proxyLawyer.defend();
         proxyLawyer.finish();
+    }
+
+    @Test
+    public void testComponent() {
+        //构造一个根节点
+        Component root = new Composite("Root");
+
+        //构造枝干节点
+        Component branchA = new Composite("branchA");
+        Component branchB = new Composite("branchB");
+
+        //构造叶子节点
+        Component leafA = new Leaf("leafA");
+        Component leafB = new Leaf("LeafB");
+
+        //将叶子节点添加至枝干节点中
+        branchA.addChild(leafA);
+        branchB.addChild(leafB);
+
+        //将枝干节点添加进跟节点
+        root.addChild(branchA);
+        root.addChild(branchB);
+
+        root.doSomething();
+    }
+
+
+    @Test
+    public void testComponent2(){
+        //构造一个目录对象表示 sdcard 盘跟目录
+        Dir diskSdcard = new Folder("sdcard");
+
+        // sdcard 下有一个文件
+        diskSdcard.addDir(new File("bug.log"));
+
+        //sdcard 下还有一个子目录  android
+        Dir android =  new Folder("android");
+        //android 目录下有一个目录
+        Dir data = new Folder("data");
+        data.addDir(new File("2019-09-14.log"));
+        android.addDir(data);
+        diskSdcard.addDir(android);
+
+        //sdcard 下还有一个子目录 baidu
+        Dir baidu =  new Folder("baidu");
+        //android 目录下有一个目录
+        Dir cache = new Folder("cache");
+        cache.addDir(new File("offline.baidu"));
+        baidu.addDir(cache);
+        diskSdcard.addDir(baidu);
+
+        //sdcard 下还有一个子目录 downloads
+        Dir downloads =  new Folder("downloads");
+        //android 目录下有一个目录
+        Dir f360 = new Folder("360");
+        f360.addDir(new File("360.log"));
+        downloads.addDir(f360);
+        diskSdcard.addDir(downloads);
+
+        //打印文件结构
+        diskSdcard.print();
     }
 }
