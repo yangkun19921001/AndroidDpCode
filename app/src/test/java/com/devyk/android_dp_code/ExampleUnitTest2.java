@@ -30,6 +30,10 @@ import com.devyk.android_dp_code.mediator.test2.SoundCard;
 import com.devyk.android_dp_code.observer.Coder;
 import com.devyk.android_dp_code.observer.JueJ;
 import com.devyk.android_dp_code.prototype.WordDocument;
+import com.devyk.android_dp_code.proxy.test1.ILawsuit;
+import com.devyk.android_dp_code.proxy.test1.ProxyLawyer;
+import com.devyk.android_dp_code.proxy.test1.XProgrammer;
+import com.devyk.android_dp_code.proxy.test1.test2.DynamicProxy;
 import com.devyk.android_dp_code.strategy.LuxuryCar;
 import com.devyk.android_dp_code.strategy.MediumCar;
 import com.devyk.android_dp_code.strategy.TransportationCalculator;
@@ -42,6 +46,7 @@ import com.devyk.android_dp_code.visitor.CTOVisitor;
 
 import org.junit.Test;
 
+import java.lang.reflect.Proxy;
 import java.util.HashSet;
 import java.util.List;
 
@@ -414,5 +419,41 @@ public class ExampleUnitTest2 {
         cdDevice.load();
 
 
+    }
+    @Test
+    public void testProxy(){
+
+        //X 程序员
+        ILawsuit lawsuit = new XProgrammer();
+
+        //程序员请的律师，把自己的事务交于律师来处理
+        ILawsuit proxyLawyer = new ProxyLawyer(lawsuit);
+
+        //律师开始处理
+        proxyLawyer.submit();
+        proxyLawyer.burden();
+        proxyLawyer.defend();
+        proxyLawyer.finish();
+    }
+    @Test
+    public void testDynamicProxy(){
+
+        //X 程序员
+        ILawsuit lawsuit = new XProgrammer();
+
+        //构造一个动态代理对象（程序员请的律师，把自己的事务交于律师来处理）
+        DynamicProxy dynamicProxy = new DynamicProxy(lawsuit);
+
+        //拿到代理者身上的 ClassLoader
+        ClassLoader classLoader = lawsuit.getClass().getClassLoader();
+
+        //动态的构造一个代理者律师出来
+        ILawsuit proxyLawyer = (ILawsuit) Proxy.newProxyInstance(classLoader, new Class[]{ILawsuit.class}, dynamicProxy);
+
+        //律师开始处理
+        proxyLawyer.submit();
+        proxyLawyer.burden();
+        proxyLawyer.defend();
+        proxyLawyer.finish();
     }
 }
