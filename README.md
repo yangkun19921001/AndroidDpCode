@@ -17,13 +17,11 @@
 ## [中介者模式](https://juejin.im/post/5d7b63b3e51d4561ea1a94ed)
 ## [代理模式](https://juejin.im/post/5d7c6bc7f265da03f3338254)
 ## [组合模式](https://juejin.im/post/5d7cbda7f265da03d2116f64)
+## [适配器模式、装饰模式、享元模式](https://juejin.im/post/5d7dfff751882539aa5ad79c)
+## [外观模式，桥接模式](https://juejin.im/post/5d7e01f4f265da03b5747aac)
 
 **未完成**
-## [适配器模式]()
-## [装饰模式]()
-## [享元模式]()
-## [外观模式]()
-## [桥接模式]()
+
 ## [解释器模式]()
 ## [命令模式]()
 

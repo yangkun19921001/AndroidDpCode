@@ -7,6 +7,13 @@ import android.content.DialogInterface;
 import com.devyk.android_dp_code.abstract_factory.DarkThemeFactory;
 import com.devyk.android_dp_code.abstract_factory.ThemeButton;
 import com.devyk.android_dp_code.abstract_factory.ThemeToolbar;
+import com.devyk.android_dp_code.adapter.Volt220;
+import com.devyk.android_dp_code.adapter.VoltAdapter;
+import com.devyk.android_dp_code.bridge.CoffeeAdditives;
+import com.devyk.android_dp_code.bridge.LargeCoffee;
+import com.devyk.android_dp_code.bridge.Ordinary;
+import com.devyk.android_dp_code.bridge.SmallCoffee;
+import com.devyk.android_dp_code.bridge.Sugar;
 import com.devyk.android_dp_code.builder.LoginManager;
 import com.devyk.android_dp_code.component.Component;
 import com.devyk.android_dp_code.component.Composite;
@@ -14,8 +21,21 @@ import com.devyk.android_dp_code.component.Leaf;
 import com.devyk.android_dp_code.component.test2.Dir;
 import com.devyk.android_dp_code.component.test2.File;
 import com.devyk.android_dp_code.component.test2.Folder;
+import com.devyk.android_dp_code.decorator.Boy;
+import com.devyk.android_dp_code.decorator.CheapCloth;
+import com.devyk.android_dp_code.decorator.ExpensiveCloth;
+import com.devyk.android_dp_code.decorator.Person;
+import com.devyk.android_dp_code.decorator.PersonCloth;
+import com.devyk.android_dp_code.facade.CameraImpl;
+import com.devyk.android_dp_code.facade.ICamera;
+import com.devyk.android_dp_code.facade.MobilePhone;
+import com.devyk.android_dp_code.facade.Phone;
+import com.devyk.android_dp_code.facade.PhoneImpl;
 import com.devyk.android_dp_code.factory.FunModuleFactor;
 import com.devyk.android_dp_code.factory.IFunctionModule;
+import com.devyk.android_dp_code.flyweiget.Ticket;
+import com.devyk.android_dp_code.flyweiget.TicketFactory;
+import com.devyk.android_dp_code.flyweiget.TrainTicket;
 import com.devyk.android_dp_code.iterator.test1.Handler;
 import com.devyk.android_dp_code.iterator.test1.HandlerA;
 import com.devyk.android_dp_code.iterator.test1.HandlerB;
@@ -525,5 +545,83 @@ public class ExampleUnitTest2 {
 
         //打印文件结构
         diskSdcard.print();
+    }
+
+
+    @Test
+    public void testAdapter1(){
+        VoltAdapter voltAdapter = new VoltAdapter(new Volt220());
+        System.out.println("voltAdapter:"+voltAdapter.getVolt5());
+    }
+
+
+    @Test
+    public void testDecorator(){
+        //首先得有一个男孩
+        com.devyk.android_dp_code.decorator.Person person = new Boy();
+        //先穿上便宜的衣服
+        PersonCloth cheapCloth = new CheapCloth(person);
+        cheapCloth.dressed();
+
+        //或者在穿上有点档次的衣服
+        PersonCloth personCloth = new ExpensiveCloth(person);
+        personCloth.dressed();
+
+    }
+
+    @Test
+    public void testFlaweiget(){
+
+
+
+        Ticket ticket1 = TicketFactory.getTicket("北京", "上海");
+        ticket1.showTicketInfo("上铺");
+        Ticket ticket7 = TicketFactory.getTicket("北京", "上海");
+        ticket7.showTicketInfo("下铺");
+        Ticket ticket2 = TicketFactory.getTicket("北京", "上海");
+        ticket2.showTicketInfo("上铺");
+        Ticket ticket3 = TicketFactory.getTicket("北京", "上海");
+        ticket3.showTicketInfo("上铺");
+        Ticket ticket4 = TicketFactory.getTicket("北京", "成都");
+        ticket4.showTicketInfo("下铺");
+        Ticket ticket5 = TicketFactory.getTicket("北京", "上海");
+        ticket5.showTicketInfo("上铺");
+        Ticket ticket6 = TicketFactory.getTicket("北京", "上海");
+        ticket6.showTicketInfo("上铺");
+    }
+
+    @Test
+    public void testFacade(){
+
+        Phone phone = new PhoneImpl();
+        ICamera camera = new CameraImpl();
+        MobilePhone mobilePhone = new MobilePhone(phone,camera);
+
+        mobilePhone.dail();
+        mobilePhone.videoChat();
+        mobilePhone.takePicture();
+        mobilePhone.stop();
+    }
+
+
+    @Test
+    public void testBridge(){
+        //原味
+        CoffeeAdditives coffeeAdditives = new Ordinary();
+        //加糖
+        CoffeeAdditives coffeeAdditives1 = new Sugar();
+        //大杯原味
+        LargeCoffee largeCoffee = new LargeCoffee(coffeeAdditives);
+        largeCoffee.makeCoffee();
+        //小杯原味
+        SmallCoffee smallCoffee = new SmallCoffee(coffeeAdditives);
+        smallCoffee.makeCoffee();
+
+        //大杯加糖
+        LargeCoffee largeCoffee2 = new LargeCoffee(coffeeAdditives1);
+        largeCoffee2.makeCoffee();
+        //小杯加糖
+        SmallCoffee smallCoffee3 = new SmallCoffee(coffeeAdditives1);
+        smallCoffee3.makeCoffee();
     }
 }
